@@ -28,4 +28,16 @@ contract Nft is ERC721URIStorage {
         _safeTransfer(owner, msg.sender, _tokenId, "");
         emit Buy(owner, msg.sender, price);
     }
+
+    function mint(address owner, uint256 _tokenId, string memory _tokenURI) {
+        require(ownerOf(_tokenId) != address(0x00), "invalid token_id");
+
+        _safeMint(owner, _tokenId);
+        _setTokenURI(_tokenId, _tokenURI);
+    }
+
+    function setTokenPrice(uint256 _tokenId, uint256 amount) {
+        require(amount > 0, "invalid amount");
+        tokenPrice[_tokenId] = amount;
+    }
 }
