@@ -18,8 +18,7 @@ contract Nft is ERC721URIStorage {
     }
 
     function buy(uint256 _tokenId) external payable {
-        price = tokenPrice[_tokenId];
-        require(_msgSender.value >= price, "not enough money");
+        uint256 price = tokenPrice[_tokenId];
         require(msg.value >= price, "invalid value");
 
         address owner = ownerOf(_tokenId);
@@ -29,14 +28,14 @@ contract Nft is ERC721URIStorage {
         emit Buy(owner, msg.sender, price);
     }
 
-    function mint(address owner, uint256 _tokenId, string memory _tokenURI) {
+    function mint(address owner, uint256 _tokenId, string memory _tokenURI) public {
         require(ownerOf(_tokenId) != address(0x00), "invalid token_id");
 
         _safeMint(owner, _tokenId);
         _setTokenURI(_tokenId, _tokenURI);
     }
 
-    function setTokenPrice(uint256 _tokenId, uint256 amount) {
+    function setTokenPrice(uint256 _tokenId, uint256 amount) public {
         require(amount > 0, "invalid amount");
         tokenPrice[_tokenId] = amount;
     }
