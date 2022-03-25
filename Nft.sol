@@ -39,4 +39,9 @@ contract Nft is ERC721URIStorage {
         require(amount > 0, "invalid amount");
         tokenPrice[_tokenId] = amount;
     }
+
+    function withdraw() public onlyOwner payable {
+        uint balance = address(this).balance;
+        payable(msg.Sender).transfer(balance);
+    }
 }
